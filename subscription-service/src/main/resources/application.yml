@@ -1,9 +1,12 @@
 server:
-  port: 8080
-  
+  port: 9001
+
 spring:
   application:
     name: subscription-data-service
+  jpa:
+    hibernate:
+      ddl-auto: update
   kafka:
      bootstrap-servers: localhost:29092
      consumer:
@@ -22,3 +25,4 @@ spring:
     url: jdbc:postgresql://localhost/subscriptions
     user: postgres
     password: postgres
+    

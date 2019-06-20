@@ -11,13 +11,17 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class Producer {
-
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendSubscriptionMessage(String message) {
         log.info(String.format("#### -> New Subcription! -> %s", message));
         this.kafkaTemplate.send(Constants.KAFKA_SUBSCRIPTIONS_TOPIC, message);
+    }
+    
+    public void sendEmailErrorMessage(String message) {
+        log.info(String.format("#### -> Email error! -> %s", message));
+        this.kafkaTemplate.send(Constants.KAFKA_SUBSCRIPTION_EMAIL_ERROR_TOPIC, message);
     }
     
     public void sendUnSubscriptionMessage(String message) {

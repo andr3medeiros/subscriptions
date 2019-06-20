@@ -3,6 +3,10 @@ Hi <b>{{firstName}}</b>!
 We're glad to see that you just subscribe to our list.
 
 Just to confirm your data:
- - Birth: {{dateOfBith}}
- - Gender: {{gender}}
- 
+<ul>
+	<li>Email: {{email}}</li>
+	<li>Birth: {{dateOfBith}}</li>
+	<li>Gender: {{gender}}</li>
+</ul>
+
+If you didn't ask for this, you can <a href="http://localhost:8080/api/v1/subscriptions/unsubscribe?email={{email}}">unsubscribe</a>. 

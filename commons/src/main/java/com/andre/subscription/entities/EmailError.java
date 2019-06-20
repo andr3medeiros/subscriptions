@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Data
 @Entity(name = "email_errors")
-public class EmailErrors implements Serializable {
+public class EmailError implements Serializable {
 	private static final long serialVersionUID = 6681210907437385735L;
 
 	@Id

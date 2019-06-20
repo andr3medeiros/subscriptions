@@ -17,7 +17,8 @@ CREATE TABLE subscribers
    first_name     varchar(255),
    gender         varchar(255),
    subscribed	  boolean DEFAULT true,
-   newsletter_id        integer NOT NULL
+   newsletter_id        integer NOT NULL,
+   UNIQUE(email)
 );
 
 ALTER TABLE subscribers

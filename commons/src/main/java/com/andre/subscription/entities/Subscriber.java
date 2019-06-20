@@ -28,7 +28,7 @@ public class Subscriber implements Serializable {
 	
 	private String firstName;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	@Email
 	private String email;
 	

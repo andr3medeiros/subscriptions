@@ -3,8 +3,12 @@ package com.andre.subscription.services;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +24,7 @@ public class MailService {
 
 	private String processTemplate(Subscriber subscriber, String templateName) throws IOException {
 		MustacheFactory mf = new DefaultMustacheFactory();
-		Mustache m = mf.compile("todo.mustache");
+		Mustache m = mf.compile(templateName);
 
 		String html;
 		try(StringWriter writer = new StringWriter()) {
@@ -32,14 +36,15 @@ public class MailService {
 		return html;
 	}
 	
-	public void sendEmail(Subscriber subscriber) throws IOException {
+	public void sendEmail(Subscriber subscriber) throws IOException, MessagingException {
 		String body = processTemplate(subscriber, "subscription.mustache");
 		
-		SimpleMailMessage message = new SimpleMailMessage(); 
-        message.setTo(subscriber.getEmail()); 
-        message.setSubject("Tanks for subscribing!"); 
-        message.setText(body);
+		MimeMessage mimeMessage = emailSender.createMimeMessage();
+		
+		mimeMessage.setContent(body, "text/html");
+		mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(subscriber.getEmail()));
+		mimeMessage.setSubject("Tanks for subscribing!");
         
-        emailSender.send(message);
+        emailSender.send(mimeMessage);
 	}
 }

@@ -4,17 +4,6 @@ server:
 spring:
   application:
     name: email-service
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: andre.adidas.challenge@gmail.com
-    #password: 2,?>5]G=
-    password: qhxjslbvwrlydtav
-    properties:
-      smtp:
-        auth: true
-        starttls:
-          enable: true
   kafka:
      bootstrap-servers: localhost:29092
      consumer:
