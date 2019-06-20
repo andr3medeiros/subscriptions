@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 9001
   
 spring:
   application:
-    name: subscription-api
+    name: subscription-data-service
   kafka:
      bootstrap-servers: localhost:29092
      consumer:
@@ -14,3 +14,11 @@ spring:
      producer:
         key-serializer: org.apache.kafka.common.serialization.StringSerializer
         value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  datasource:
+    url: jdbc:postgresql://localhost/subscriptions
+    username: postgres
+    password: postgres
+  flyway:
+    url: jdbc:postgresql://localhost/subscriptions
+    user: postgres
+    password: postgres

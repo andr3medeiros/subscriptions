@@ -14,8 +14,10 @@ import javax.validation.constraints.Email;
 import com.andre.subscription.enums.Gender;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity(name = "subscribers")
 public class Subscriber implements Serializable {
 	private static final long serialVersionUID = 526338188605776657L;
@@ -24,16 +26,16 @@ public class Subscriber implements Serializable {
 	@GeneratedValue
 	private Integer id;
 	
-	@Column
 	private String firstName;
 	
 	@Column(nullable = false)
 	@Email
 	private String email;
 	
-	@Column
-	private Date dataOfBirth;
+	private Date dateOfBirth;
 	
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
+	
+	private boolean subscribed = true;
 }
