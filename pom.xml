@@ -18,9 +18,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>subscription-commons</module>
-		<module>subscription-data-service</module>
-		<module>subscription-api</module>
+		<module>commons</module>
+		<module>subscription-service</module>
+		<module>public-service</module>
 		<module>email-service</module>
 	</modules>
 

@@ -1,22 +1,22 @@
 server:
-  port: 9002
+  port: 8080
   
 spring:
   application:
-    name: email-service
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: andre.adidas.challenge@gmail.com
-    #password: 2,?>5]G=
-    password: qhxjslbvwrlydtav
-    properties:
-      smtp:
-        auth: true
-        starttls:
-          enable: true
+    name: subscriptions-data-service
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:postgresql://postgres:5432/subscriptions
+    username: postgres
+    password: postgres
+  flyway:
+    url: jdbc:postgresql://postgres:5432/subscriptions
+    user: postgres
+    password: postgres
   kafka:
-     bootstrap-servers: localhost:29092
+     bootstrap-servers: kafka:9092
      consumer:
         group-id: subscriptions-1
         auto-offset-reset: earliest

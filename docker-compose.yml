@@ -1,11 +1,12 @@
 version: '3.1'
 
 services:
-  subscription-api:
-    container_name: subscription-api
-    build: ./subscription-api
-    image: subscriptions-api:1.0.0
+  api:
+    container_name: api
+    build: ./api
+    image: api:1.0.0
     depends_on:
+      - postgres
       - kafka
     links:
       - kafka:kafka
@@ -13,19 +14,7 @@ services:
       JAVA_OPTS: "-Dspring.profiles.active=docker"
     ports:
       - 8080:8080
-  
-  subscription-data-service:
-    container_name: subscription-data-service
-    build: ./subscription-data-service
-    image: subscription-data-service:1.0.0
-    depends_on:
-      - kafka
-      - postgres
-    links:
-      - kafka:kafka
-    environment:
-      JAVA_OPTS: "-Dspring.profiles.active=docker"
-      
+
   email-service:
     container_name: email-service
     build: ./email-service
@@ -38,27 +27,15 @@ services:
       JAVA_OPTS: "-Dspring.profiles.active=docker"
    
   zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    network_mode: host
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 32181
-      ZOOKEEPER_TICK_TIME: 2000
-    extra_hosts:
-      - "moby:127.0.0.1"
-
+    image: wurstmeister/zookeeper:3.4.6
   kafka:
-    image: confluentinc/cp-kafka:latest
-    network_mode: host
-    depends_on:
-      - zookeeper
+    image: wurstmeister/kafka:2.12-2.1.0
+    links:
+     - zookeeper
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: localhost:32181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    extra_hosts:
-      - "moby:127.0.0.1"
-
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
   postgres:
     image: postgres:9.6

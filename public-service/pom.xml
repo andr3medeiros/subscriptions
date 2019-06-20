@@ -10,12 +10,13 @@
 		<relativePath>..</relativePath> <!-- lookup parent from repository -->
 	</parent>
 
-	<artifactId>email-service</artifactId>
-	<name>email-service</name>
-	<description>Service for sending emails to new subscribers</description>
+	<artifactId>public-service</artifactId>
+	<name>public-service</name>
+	<description>REST API for subscribers</description>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
 	</properties>
 
 	<dependencies>
@@ -26,19 +27,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>com.github.spullara.mustache.java</groupId>
-			<artifactId>compiler</artifactId>
-			<version>0.9.4</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
