@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: subscriptions-api
+  datasource:
+    url: jdbc:postgresql://postgres:5432/subscriptions
+    username: postgres
+    password: postgres
+  flyway:
+    url: jdbc:postgresql://postgres:5432/subscriptions
+    user: postgres
+    password: postgres
+  rabbitmq:
+    host: rabbitmq
+  
+app:
+  subscription:
+    subscription-queue-name: subscriptions.subscribe
+    unsubscription-queue-name: subscriptions.unsubscribe

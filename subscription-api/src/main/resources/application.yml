@@ -1,0 +1,15 @@
+server:
+  port: 8080
+  
+spring:
+  application:
+    name: subscription-api
+  rabbitmq:
+    template:
+      routing-key: subscriptions.#
+      exchange: subscriptions-exchange
+      
+app:
+  subscription:
+    subscription-queue-name: subscriptions.subscribe
+    unsubscription-queue-name: subscriptions.unsubscribe

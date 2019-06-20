@@ -1,0 +1,50 @@
+version: '3.1'
+
+services:
+  subscription-api:
+    container_name: subscription-api
+    build: ./subscription-api
+    image: subscriptions-api:1.0.0
+    depends_on:
+      - rabbitmq
+    environment:
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
+    ports:
+      - 8080:8080
+  
+  subscription-service:
+    container_name: subscription-service
+    build: ./subscription-service
+    image: subscription-service:1.0.0
+    depends_on:
+      - postgres
+    links:
+      - rabbitmq
+    environment:
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
+      
+  email-service:
+    container_name: email-service
+    build: ./email-service
+    image: email-service:1.0.0
+    depends_on:
+      - rabbitmq
+    environment:
+      JAVA_OPTS: "-Dspring.profiles.active=docker"
+   
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  postgres:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: subscriptions
