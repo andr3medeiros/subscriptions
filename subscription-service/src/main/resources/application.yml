@@ -6,7 +6,7 @@ spring:
     name: subscription-data-service
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   kafka:
      bootstrap-servers: localhost:29092
      consumer:

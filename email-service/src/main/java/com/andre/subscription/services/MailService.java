@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.andre.subscription.entities.Subscriber;
+import com.andre.subscription.pojo.Subscription;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
@@ -22,13 +23,13 @@ public class MailService {
 	@Autowired
     public JavaMailSender emailSender;
 
-	private String processTemplate(Subscriber subscriber, String templateName) throws IOException {
+	private String processTemplate(Subscription subscription, String templateName) throws IOException {
 		MustacheFactory mf = new DefaultMustacheFactory();
 		Mustache m = mf.compile(templateName);
 
 		String html;
 		try(StringWriter writer = new StringWriter()) {
-			m.execute(writer, subscriber).flush();
+			m.execute(writer, subscription).flush();
 			
 			html = writer.toString();
 		}
@@ -37,13 +38,14 @@ public class MailService {
 	}
 	
 	public void sendEmail(Subscriber subscriber) throws IOException, MessagingException {
-		String body = processTemplate(subscriber, "subscription.mustache");
+		Subscription subscription = new Subscription(subscriber);
+		String body = processTemplate(subscription, "subscription.mustache");
 		
 		MimeMessage mimeMessage = emailSender.createMimeMessage();
 		
 		mimeMessage.setContent(body, "text/html");
 		mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(subscriber.getEmail()));
-		mimeMessage.setSubject("Tanks for subscribing!");
+		mimeMessage.setSubject("Thanks for subscribing!");
         
         emailSender.send(mimeMessage);
 	}

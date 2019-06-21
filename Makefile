@@ -1,18 +1,22 @@
-install-all:
+install:
 	mvn install -Dmaven.test.skip=true
 
 install-%:
 	mvn install -Dmaven.test.skip=true -pl $*
 	
-build-all:
+build:
 	docker-compose build
 	
-install-build-all:
-	make install-all
-	make build-all
-	
-run-all:
+container-all-up:
 	docker-compose up -d
+
+build-run-all:
+	make install
+	make build
+	make container-all-up
+
+just-run:
+	make container-all-up
 
 ibr-%:
 	mvn install -Dmaven.test.skip=true -pl $*
@@ -21,7 +25,3 @@ ibr-%:
 	
 run-%:
 	docker-compose up -d $*
-
-kafka-create-topics:
-	docker-compose exec kafka kafka-topics --create --topic subscriptions --partitions 1 --replication-factor 1 --if-not-exists --zookeeper localhost:32181
-	docker-compose exec kafka kafka-topics --create --topic unsubscriptions --partitions 1 --replication-factor 1 --if-not-exists --zookeeper localhost:32181

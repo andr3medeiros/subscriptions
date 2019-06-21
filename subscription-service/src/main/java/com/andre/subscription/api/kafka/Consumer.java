@@ -35,6 +35,12 @@ public class Consumer {
         
         Subscriber subscriber = mapper.readValue(message, Subscriber.class);
         
+        Optional<Subscriber> optionalSubscriber = service.findByEmail(subscriber.getEmail());
+        if(optionalSubscriber.isPresent()) {
+        	subscriber = optionalSubscriber.get();
+        }
+        
+        subscriber.setSubscribed(true);
         service.save(subscriber);
         
         kafkaProducer.sendSavedSubscriptionMessage(message);

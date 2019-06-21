@@ -4,26 +4,22 @@
 
 The scenario consists of a public service where people can subscribe for receiving newsletters, on a public API. It consists of 3 microservices, where only the public api is exposed.
 
+Due to the lower SLA for the public service, it doesn't wait fot the subscription service to persist the data. Instead, it sends the message saying that a new subscriber is here and then the subscrition service takes the message and persists the data at its pace. Once it does, another message is sent, freeing it for new data persisting. This time for the email service takes the new message from the kafka topic to send email confirmations to the user.
+
 ## Tecnologies
 
-
-* Netflix Zuul for service discovering
-* Netflix Eureka for service registry, load balancing and failover
+* Spring boot for fast java development. It has implementations for everything in J2EE plus integrations with a lot open source tools like kafka, used in this project
+* Kafka for horizontally scalable data sharing. Here use in a form of messaging sharing
 * Sprinfox and Swagger for api documentation
-* Postgresql 
-* Docker for database containerization
-* Spring securty, using io.jsonwebtoken for JWT management
-* Spring boot for über application spinning
+* Postgresql with flyway for database schema update manager
+* Docker for application containerization and isolation. "only public service is accessible from the end user", so only this service is exposed in the outter network
 
-## Running 
-1. make install
-2. make run-primary
-3. make run-second
-4. make run-last
+## Pipeline proposal
 
-## Acessing
-The database will have the initial data if 50 cities and the user "adidas:adidas"  
-To get the token: http://localhost:8080/gateway/authentication/v1/auth/signin
+![Pipeline](pipeline.png)
+
+## Running
+  make build-run-all. For next spin ups, make just-run
 
 ## Docs
-http://localhost:8080/gateway/itinerary/swagger-ui.html
+http://localhost:8080/swagger-ui.html

@@ -18,6 +18,7 @@ import com.andre.subscription.entities.Subscriber;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -29,6 +30,7 @@ public class SubscriptionController {
 	@Autowired
 	private ObjectMapper mapper;
 
+	@ApiOperation(value = "Asks for a new subscription. Returns the new newsletter id", response = Integer.class)
 	@PostMapping("subscribe")
 	public DeferredResult<Integer> subscribe(@RequestBody Subscriber subscriber) throws JsonProcessingException {
 		final int newsletterId = RandomUtils.nextInt(999999) + 1;
@@ -56,6 +58,7 @@ public class SubscriptionController {
 		return deferredResult;
 	}
 	
+	@ApiOperation(value = "Asks for a unsubscription. Return confirmation message", response = Integer.class)
 	@GetMapping("unsubscribe")
 	public DeferredResult<String> unsubscribe(@RequestParam("email") String email) {
 		final DeferredResult<String> deferredResult = new DeferredResult<>();
@@ -66,7 +69,7 @@ public class SubscriptionController {
 
 			@Override
 			public void onSuccess(SendResult<String, String> result) {
-				deferredResult.setResult("Sorry for the inconvenience!");
+				deferredResult.setResult("We'll be happy to hear from you what makes you wanna hear from us!");
 			}
 
 			@Override
